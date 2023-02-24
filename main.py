@@ -1,16 +1,19 @@
-# This is a sample Python script.
+# install peewee
+from peewee import *
+from os import path
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+connection = path.dirname(path.realpath(__file__))
+db = SqliteDatabase(path.join(connection, "carmen.db"))
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+# creating a table
+class User(Model):
+    name = CharField()
+    email = CharField(unique=True)
+    password = CharField()
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    class Meta:
+        database = db
+
+
+User.create_table(fail_silently=True)
